@@ -1,0 +1,59 @@
+version: '3'
+
+networks:
+  prodnetwork:
+    driver: bridge
+services:
+  jenkins:
+    build: ./jenkins
+    depends_on:
+      - apacheds
+    restart: always
+    volumes:
+      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/jenkins:/var/jenkins_home
+    ports:
+      - "18080:8080"
+    networks:
+      - prodnetwork
+    environment:
+      - NEXUS_PORT=8081
+      - SONAR_PORT=9000
+      - SONAR_DB_PORT=5432
+  sonar:
+    build:
+      context: ./sonar
+      dockerfile: Dockerfile
+    depends_on:
+      - apacheds
+    restart: always
+    volumes:
+      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/sonar:/opt/sonarqube/data
+      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/sonar:/opt/sonarqube/logs
+      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/sonar:/opt/sonarqube/conf
+    ports:
+     - "19000:9000"
+     - "19092:9092"
+    networks:
+      - prodnetwork
+  nexus:
+    build:
+      context: ./nexus
+      dockerfile: Dockerfile
+    depends_on:
+      - apacheds
+    volumes:
+      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/nexus:/sonatype-work
+    restart: always
+    ports:
+     - "18081:8081"
+    networks:
+      - prodnetwork
+  apacheds:
+    image: ojbc/apacheds
+    volumes:
+      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/apacheds:/opt/tmp
+    restart: always
+    ports:
+     - "10389:389"
+    networks:
+      - prodnetwork
