@@ -15,7 +15,8 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 RUN curl -sSL -o /bin/docker https://get.docker.io/builds/Linux/x86_64/docker-latest
 RUN chmod +x /bin/docker
 
-USER jenkins
+RUN chown -R jenkins:jenkins /var/jenkins_home
+#USER jenkins
 
 # installing specific list of plugins. see: https://github.com/jenkinsci/docker#preinstalling-plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
