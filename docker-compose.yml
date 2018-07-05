@@ -10,7 +10,7 @@ services:
       - apacheds
     restart: always
     volumes:
-      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/jenkins:/var/jenkins_home
+      - /host_mnt/<absolute path to your workspace>/data/jenkins:/var/jenkins_home
     ports:
       - "18080:8080"
     networks:
@@ -27,9 +27,9 @@ services:
       - apacheds
     restart: always
     volumes:
-      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/sonar:/opt/sonarqube/data
-      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/sonar:/opt/sonarqube/logs
-      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/sonar:/opt/sonarqube/conf
+      - /host_mnt/<absolute path to your workspace>/data/sonar:/opt/sonarqube/data
+      - /host_mnt/<absolute path to your workspace>/data/sonar:/opt/sonarqube/logs
+      - /host_mnt/<absolute path to your workspace>/data/sonar:/opt/sonarqube/conf
     ports:
      - "19000:9000"
      - "19092:9092"
@@ -42,7 +42,7 @@ services:
     depends_on:
       - apacheds
     volumes:
-      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/nexus:/sonatype-work
+      - /host_mnt/<absolute path to your workspace>/data/nexus:/sonatype-work
     restart: always
     ports:
      - "18081:8081"
@@ -51,7 +51,7 @@ services:
   apacheds:
     image: ojbc/apacheds
     volumes:
-      - /host_mnt/c/Users/APERALTA/Desktop/infra/data/apacheds:/opt/tmp
+      - /host_mnt/<absolute path to your workspace>/data/apacheds:/opt/tmp
     restart: always
     ports:
      - "10389:389"
